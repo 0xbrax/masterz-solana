@@ -6,6 +6,7 @@
     "init": "node scripts/initToken.js",
     "mint": "node scripts/mintToken.js",
     "upload-image": "node scripts/uploadImage.js",
+    "upload-json": "node scripts/uploadJson.js",
     "create-meta": "node scripts/createMetadata.js",
     "transfer": "node scripts/transferToken.js"
   },

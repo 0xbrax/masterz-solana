@@ -1,12 +1,12 @@
 import { loadFileJSON } from '../utils.js';
 
 import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
-import { createMetadataAccountV3, MPL_TOKEN_METADATA_PROGRAM_ID } from "@metaplex-foundation/mpl-token-metadata";
+import { createMetadataAccountV3, updateMetadataAccountV2, MPL_TOKEN_METADATA_PROGRAM_ID } from "@metaplex-foundation/mpl-token-metadata";
 import { publicKey, createSignerFromKeypair, signerIdentity } from "@metaplex-foundation/umi"
 import { publicKey as publicKeySerializer, string } from '@metaplex-foundation/umi/serializers';
 
 const wallet = loadFileJSON('wallet.json');
-const IMAGE_URI = 'https://arweave.net/dbTjIxRRADh9WPX4JmFyRTc1jIoxj8-L5T0MZjGCPts';
+const JSON_URI = 'https://arweave.net/0S93_1RRQtYgQW6k8g6xpIMb_LTCYu9SwSCW6XS_KHs';
 const TOKEN_ADDRESS = 'H75kXxbN3iZotjBmkg51cn1vJjw2f3pbUPtms946iVfe';
 
 const umi = createUmi('https://api.devnet.solana.com', 'confirmed');
@@ -34,7 +34,7 @@ const metadata = umi.eddsa.findPda(MPL_TOKEN_METADATA_PROGRAM_ID, seeds);
     const data = {
         name: "Crash Bandicoot",
         symbol: "CRASH",
-        uri: IMAGE_URI,
+        uri: JSON_URI,
         sellerFeeBasisPoints: 0,
         creators: [
             {
@@ -54,6 +54,7 @@ const metadata = umi.eddsa.findPda(MPL_TOKEN_METADATA_PROGRAM_ID, seeds);
         collectionDetails: null,
     };
 
+    // updateMetadataAccountV2 --> replace with this method to update metadata
     const tx = createMetadataAccountV3(
         umi,
         {
@@ -63,9 +64,11 @@ const metadata = umi.eddsa.findPda(MPL_TOKEN_METADATA_PROGRAM_ID, seeds);
     );
 
     await tx.sendAndConfirm(umi);
+
     //const result = await tx.sendAndConfirm(umi);
     //const signature = umi.transactions.deserialize(result.signature);
     //console.log(signature);
+    //console.log(`Success! https://explorer.solana.com/tx/${tx}?cluster=devnet`);
 
-    console.log(`Success! https://explorer.solana.com/tx/${tx}?cluster=devnet`);
+    console.log('Success!');
 })();
